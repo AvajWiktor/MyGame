@@ -13,8 +13,8 @@ public:
 		{
 			BtnTextureOn_.loadFromFile(path1);
 			BtnTextureOff_.loadFromFile(path2);
-			BtnSprite_.setTexture(BtnTextureOn_);
-			BtnSprite_.setOrigin(BtnTextureOn_.getSize().x/2.0,BtnTextureOn_.getSize().y / 2.0);
+			BtnSprite_.setTexture(BtnTextureOff_);
+			BtnSprite_.setOrigin(BtnTextureOff_.getSize().x/2.0,BtnTextureOff_.getSize().y / 2.0);
 			BtnSprite_.setScale(scale);
 			BtnSprite_.setPosition(position);
 			BtnType_ = type;
@@ -22,8 +22,17 @@ public:
 
 		bool isButtonPressed(sf::Vector2f mousePos)
 		{
-			if ((BtnSprite_.getGlobalBounds().contains(mousePos)) && (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))) return true;
-			else return false;
+			if (BtnSprite_.getGlobalBounds().contains(mousePos))
+			{
+				BtnSprite_.setTexture(BtnTextureOn_);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) return true;
+				else return false;
+			}
+			else
+			{
+				BtnSprite_.setTexture(BtnTextureOff_);
+				return false;
+			}
 		}
 		uint8_t getType() 
 		{
@@ -51,79 +60,88 @@ public:
 
 	}
 
-	void handleButtons(sf::Vector2f mousePos)
+	
+	void handleMenu(sf::RenderWindow &w) {
+		sf::Vector2i mousePos = sf::Mouse::getPosition(w);
+		handleButtons(mousePos);
+		draw(w);
+	}
+	
+
+	
+
+private:
+	void handleButtons(sf::Vector2i mousePos)
 	{
 
 		for (auto i = MenuButtons_.begin(); i != MenuButtons_.end(); i++)
 		{
-			if ((*i)->isButtonPressed(mousePos))
+			if ((*i)->isButtonPressed(sf::Vector2f(mousePos.x, mousePos.y)))
 			{
 				MenuState_ = (*i)->getType();
 			}
 		}
 	}
-
-	void draw(sf::RenderWindow &w)
+	void draw(sf::RenderWindow& w)
 	{
-		switch(MenuState_)
+
+		switch (MenuState_)
 		{
-			case MenuStates_::Main: 
-			{
-				handleMain(w);
-				break;
-			}
-			case MenuStates_::Saves:
-			{
-				handleSaves(w);
-				break;
-			}
-			case MenuStates_::Settings:
-			{
-				handleSettings(w);
-				break;
-			}
-			case MenuStates_::Start:
-			{
-				handleStart(w);
-				break;
-			}
-			case MenuStates_::Exit:
-			{
-				handleExit(w);
-				break;
-			}
-		
+		case MenuStates_::Main:
+		{
+			handleDrawingMain(w);
+			break;
 		}
-		
+		case MenuStates_::Saves:
+		{
+			handleDrawingSaves(w);
+			break;
+		}
+		case MenuStates_::Settings:
+		{
+			handleDrawingSettings(w);
+			break;
+		}
+		case MenuStates_::Start:
+		{
+			handleDrawingStart(w);
+			break;
+		}
+		case MenuStates_::Exit:
+		{
+			handleDrawingExit(w);
+			break;
+		}
+
+		}
+
 	}
-
-	
-
-private:
 	void createMenu()
 	{
 		std::string p1 = "graphics/btn";
 		std::string p2 = "On.png";
 		std::string p3 = "Off.png";
 
-		for (uint8_t i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			if (i == 0)
 			{
-				std::unique_ptr<Button> ptr(new Button(p1 + std::to_string(i) + p2, p1 + std::to_string(i) + p3,
+				std::shared_ptr<Button> ptr(new Button(p1 + std::to_string(i+1) + p2, p1 + std::to_string(i+1) + p3,
 					i, sf::Vector2f(200 * GameScale_.x, 800 * GameScale_.y), GameScale_));
+				MenuButtons_.push_back(ptr);
 			}
 			else
 			{
-				std::unique_ptr<Button> ptr(new Button(p1 + std::to_string(i) + p2, p1 + std::to_string(i) + p3,
-					i, sf::Vector2f(800.0 * GameScale_.x, 450.0 * GameScale_.y), GameScale_));
+				std::shared_ptr<Button> ptr(new Button(p1 + std::to_string(i+1) + p2, p1 + std::to_string(i+1) + p3,
+					i, sf::Vector2f(800.0 * GameScale_.x, 350.0 * GameScale_.y + 100.0 * (i-1)*GameScale_.y) , GameScale_));
+				MenuButtons_.push_back(ptr);
 			}
 
 		}
 	}
-	void handleMain(sf::RenderWindow &w)
+	void handleDrawingMain(sf::RenderWindow &w)
 	{
-		for (auto itr = MenuButtons_.begin()++; itr != MenuButtons_.end(); itr++)
+		for (auto itr = MenuButtons_.begin(); itr != MenuButtons_.end(); itr++)
 		{
 			if ((*itr)->getType() != MenuStates_::Main)
 			{
@@ -131,23 +149,47 @@ private:
 			}
 		}
 	}
-	/*to do*/ void handleSaves(sf::RenderWindow &w) 
+	/*to do*/ void handleDrawingSaves(sf::RenderWindow &w) 
 	{
-
+		for (auto itr = MenuButtons_.begin(); itr != MenuButtons_.end(); itr++)
+		{
+			if ((*itr)->getType() == MenuStates_::Main)
+			{
+				w.draw((*itr)->getButton());
+			}
+		}
 	}
-	/*to do*/void handleSettings(sf::RenderWindow &w)
+	/*to do*/void handleDrawingSettings(sf::RenderWindow &w)
 	{
-
+		for (auto itr = MenuButtons_.begin(); itr != MenuButtons_.end(); itr++)
+		{
+			if ((*itr)->getType() == MenuStates_::Main)
+			{
+				w.draw((*itr)->getButton());
+			}
+		}
 	}
-	/*to do*/void handleStart(sf::RenderWindow& w)
+	/*to do*/void handleDrawingStart(sf::RenderWindow& w)
 	{
-
+		for (auto itr = MenuButtons_.begin(); itr != MenuButtons_.end(); itr++)
+		{
+			if ((*itr)->getType() == MenuStates_::Main)
+			{
+				w.draw((*itr)->getButton());
+			}
+		}
 	}
-	/*to do*/void handleExit(sf::RenderWindow& w)
+	/*to do*/void handleDrawingExit(sf::RenderWindow& w)
 	{
-
+		for (auto itr = MenuButtons_.begin(); itr != MenuButtons_.end(); itr++)
+		{
+			if ((*itr)->getType() == MenuStates_::Main)
+			{
+				w.draw((*itr)->getButton());
+			}
+		}
 	}
-	std::list<std::unique_ptr<Button>> MenuButtons_;
+	std::list<std::shared_ptr<Button>> MenuButtons_;
 	enum MenuStates_
 	{
 		Main = 0,

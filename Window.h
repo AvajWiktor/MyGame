@@ -20,10 +20,10 @@ class Window
 
 	//getters / are they even necessary? XD
 
-	/*std::shared_ptr<sf::RenderWindow> getGameWindowPointer() 
+	std::shared_ptr<sf::RenderWindow> getGameWindowPointer() 
 	{
 		return GameWindow_;
-	}*/
+	}
 
 	//setters
 	void setWindowSize(sf::Vector2u size) 
