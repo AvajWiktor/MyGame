@@ -148,6 +148,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="GameLogic.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Window.h" />

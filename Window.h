@@ -28,7 +28,9 @@ class Window
 	//setters
 	void setWindowSize(sf::Vector2u size) 
 	{
-		GameWindow_->setSize(size);
+		GameWindow_->create(sf::VideoMode(size.x, size.y), "MyGame", sf::Style::Close);
+		printf("X:%d Y:%d \n",size.x,size.y);
+		//GameWindow_->setSize(size);
 		GameWindowSize_ = size;
 	}
 

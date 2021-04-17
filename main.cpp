@@ -8,11 +8,11 @@ using namespace std;
 
 
 int main() {
-
+	sf::Vector2f scale(1.0, 1.0);
 	Window GameWindow;
-	Menu GameMenu(sf::Vector2f(1.0,1.0));
+	Menu GameMenu(scale, shared_ptr<Window>(new Window(GameWindow)));
 	const int fps = 120;
-	float speed = 2.0 * 60.0 / fps;
+	sf::Vector2f speed((2.0 * 60.0 / fps)*scale.x, (2.0 * 60.0 / fps)*scale.y);
 	//sf::RenderWindow w(sf::VideoMode(1600,900), "iksde", sf::Style::Close);
 	GameWindow.setFramerateLimit(fps);
 	//unique_ptr<sf::RectangleShape> ptr(new sf::RectangleShape(sf::Vector2f(100, 100)));
