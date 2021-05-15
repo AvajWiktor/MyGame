@@ -8,21 +8,14 @@ class Menu
 {
 public:
 
-	
-
 	Menu(sf::Vector2f &scale, std::shared_ptr<Window> gameWindow)
 	{
 		GameWindow_ = gameWindow;
 		GameScale_ = scale;
 		createMenu();
 	}
+	~Menu() {}
 
-	~Menu() 
-	{
-
-	}
-
-	
 	void handleMenu(sf::RenderWindow &w) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(w);
 		handleButtons(mousePos);
@@ -42,10 +35,8 @@ public:
 		
 
 	}
-
-	
-
 private:
+
 	void handleButtons(sf::Vector2i mousePos)
 	{
 
@@ -100,7 +91,6 @@ private:
 				end = ExitMenuButtons_.end();
 				break;
 			}
-
 		}
 		for (auto i = begin; i != end; i++)
 		{
@@ -109,38 +99,32 @@ private:
 				MenuState_ = (*i)->getType();
 				switch (MenuState_)
 				{
-				case MenuStates_::Main:
-				{
-					
-					break;
-				}
-				case MenuStates_::Saves:
-				{
-					
-					break;
-				}
-				case MenuStates_::Settings:
-				{
-					
-					break;
-				}
-				case MenuStates_::Resolution:
-				{
-					setResolution((*i)->getResolution());
-					breakLoop = true;
-					break;
-				}
-				case MenuStates_::Start:
-				{
-					
-					break;
-				}
-				case MenuStates_::Exit:
-				{
-					
-					break;
-				}
-
+					case MenuStates_::Main:
+					{
+						break;
+					}
+					case MenuStates_::Saves:
+					{
+						break;
+					}
+					case MenuStates_::Settings:
+					{
+						break;
+					}
+					case MenuStates_::Resolution:
+					{
+						setResolution((*i)->getResolution());
+						breakLoop = true;
+						break;
+					}
+					case MenuStates_::Start:
+					{
+						break;
+					}
+					case MenuStates_::Exit:
+					{
+						break;
+					}
 				}
 			}
 			if (breakLoop) 
@@ -185,9 +169,7 @@ private:
 				handleDrawingExit(w);
 				break;
 			}
-
 		}
-
 	}
 	void createMenu()
 	{
@@ -216,7 +198,6 @@ private:
 					i, sf::Vector2f(800.0 * GameScale_.x, 350.0 * GameScale_.y + 100.0 * (i-1)*GameScale_.y) , GameScale_));
 				MainMenuButtons_.push_back(ptr);
 			}
-
 		}
 		//creating SettingsMenu buttons
 		for (int i = 0; i < Resolutions_.size(); i++)
@@ -285,7 +266,6 @@ private:
 			}
 		}
 	}
-
 
 	std::list<std::shared_ptr<Button>> MainMenuButtons_;
 	std::list<std::shared_ptr<Button>> SettingsMenuButtons_;
