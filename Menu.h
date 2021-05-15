@@ -7,7 +7,6 @@
 class Menu
 {
 public:
-
 	Menu(sf::Vector2f &scale, std::shared_ptr<Window> gameWindow)
 	{
 		GameWindow_ = gameWindow;
@@ -31,15 +30,10 @@ public:
 		GameWindow_->setWindowSize(resolution);
 		GameScale_ = sf::Vector2f(float(resolution.x) / 1600.0, float(resolution.y) / 900.0);
 		createMenu();
-		
-		
-
 	}
 private:
-
 	void handleButtons(sf::Vector2i mousePos)
 	{
-
 		for (auto i = MainMenuButtons_.begin(); i != MainMenuButtons_.end(); i++)
 		{
 			if ((*i)->getType() == MenuStates_::Main)
@@ -206,7 +200,6 @@ private:
 				MenuStates_::Resolution,Resolutions_[i], sf::Vector2f(800.0 * GameScale_.x, 350.0 * GameScale_.y + 100.0 * (i - 1) * GameScale_.y), GameScale_));
 			SettingsMenuButtons_.push_back(ptr);
 		}
-
 	}
 	void handleDrawingMain(sf::RenderWindow &w)
 	{
