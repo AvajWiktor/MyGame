@@ -22,7 +22,6 @@ public:
 		BtnSprite_.setPosition(position);
 		BtnType_ = type;
 		Resolution_ = resolution;
-
 	}
 	sf::Vector2u getResolution()
 	{
@@ -30,29 +29,23 @@ public:
 	}
 	bool isButtonPressed(sf::Vector2f mousePos)
 	{
-		
 		if (BtnSprite_.getGlobalBounds().contains(mousePos))
 		{
 			BtnSprite_.setTexture(BtnTextureOn_);
 			if (!(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)))
 			{
-				
 				IsPressedFlag = false;
 				return false;
 			}
 			if((sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) && (!(IsPressedFlag)))
 			{
 				IsPressedFlag = true;
-				
 				return true;
-				
 			}
 			else
 			{
 				return false;
 			}
-			
-			
 		}
 		else
 		{
@@ -74,5 +67,4 @@ private:
 	uint8_t BtnType_ = 0;
 	bool IsPressedFlag = true;
 	sf::Vector2u Resolution_ = sf::Vector2u(0, 0);
-
 };
